@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+
+   <reports>
+      <rejected-er short="Rejected - Error" title="Rejected Records - Errors"/>
+      <new        short="New"      title="New Records"/>
+      <rejected-ov   short="Match - No Overlay" title="Records that matched but did not overlay existing records"/>
+      <overlay  short="Match - Overlay"  title="Records that overlaid existing records"/>
+      <overlaid   short="Overlaid" title="Records overlaid by incoming records"/>
+      <noXPTadded short="No XPT" title="No XPT added to the record"/>
+      <holcreated short="Hol created" title="Hol created"/>
+      <defholcreated short="Def Hol created" title="Default Hol created"/> 
+      <holnotcreated short="Hol not created" title="Hol not created"/>
+      <itemcreated short="Item created" title="Item created"/>
+      <defitemcreated short="Def Item created" title="Default Item created"/>
+      <itemnotcreated short="Item not created" title="Item not created"/>
+      <newnohol   short="New w/o HOL" title="New records loaded without HOL record"/>
+      <newnoitem  short="New w/o Item" title="New records loaded without Item record"/>
+      <biblvls    short="Records with bib lvl='s'" title="Records with bib lvl='s'"/>
+      <x852matchesmultiple short="Multiple 852 match" title="852 matched multiple existing HOL records"/>
+      <x852missingsfld8 short="Missing 852 $$8" title="852 is missing requisite $$8"/>
+      <x852missingsfldb short="Missing 852 $$b" title="852 is missing requisite $$b"/>
+      <x852missingsfldc short="Missing 852 $$c" title="852 is missing requisite $$c"/>
+      <itemnotlinked short="Item not linked to Hol" title="Item not linked to Hol"/>
+   </reports>

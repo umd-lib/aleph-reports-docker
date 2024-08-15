@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- List of available config files -->
+<root>
+  <file tag="scmi-valid-list"       xml="/lims/tab/itemlocs.xml" xsl="itemlocs.xsl"/>
+
+  <file tag="callnum-ranges"     xml="/lims/lib/callnums/ranges.xml"     xsl="ranges.xsl"/>
+  <file tag="callnum-ranges-art" xml="/lims/lib/callnums/ranges-art.xml" xsl="ranges.xsl"/>
+  <file tag="callnum-ranges-ce"  xml="/lims/lib/callnums/ranges-ce.xml"  xsl="ranges.xsl"/>
+  <file tag="callnum-ranges-cs"  xml="/lims/lib/callnums/ranges-cs.xml"  xsl="ranges.xsl"/>
+  <file tag="callnum-ranges-fs"  xml="/lims/lib/callnums/ranges-fs.xml"  xsl="ranges.xsl"/>
+  <file tag="callnum-ranges-ml"  xml="/lims/lib/callnums/ranges-ml.xml"  xsl="ranges.xsl"/>
+  <file tag="callnum-ranges-su"  xml="/lims/lib/callnums/ranges-su.xml"  xsl="ranges.xsl"/>
+  <file tag="callnum-ranges-tu"  xml="/lims/lib/callnums/ranges-tu.xml"  xsl="ranges.xsl"/>
+  <file tag="callnum-ranges-ub"  xml="/lims/lib/callnums/ranges-ub.xml"  xsl="ranges.xsl"/>
+
+</root>
+

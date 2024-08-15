@@ -1,0 +1,29 @@
+<project default="compile">
+
+<!--
+  <property name="build.compiler" value="jikes"/>
+-->
+  <property environment="env"/>
+
+  <property name="catalina.home" value="/apps/jakarta-tomcat-5.0.19"/>
+  <property name="catalina.base" value="../.."/>
+  <property name="my.java.home"     value="${env.JAVA_HOME}"/>
+
+  <path id = "classpath">
+    <pathelement path="${basedir}/WEB-INF/classes:${my.java.home}/jre/lib/rt.jar:${basedir}/WEB-INF/lib/xalan.jar:${catalina.home}/common/lib/jsp-api.jar:${catalina.base}/shared/lib/lims.jar:${catalina.base}/shared/lib/log4j.jar"/>
+  </path>
+
+  <target name="compile" description="compile .java to .class" >
+    <javac srcdir="./WEB-INF/src" 
+           destdir=".//WEB-INF/classes" 
+           classpathref="classpath"
+    />
+  </target>
+
+  <target name="clean" description="remove .class files" >
+    <delete>
+      <fileset dir="./WEB-INF/classes" includes="**/*.class"/>
+    </delete>
+  </target>
+
+</project>

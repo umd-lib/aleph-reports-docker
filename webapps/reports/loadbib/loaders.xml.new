@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<index>
+
+  <loader lib="mai01" loader="cassidy"/>
+  <loader lib="mai01" loader="catexpress-ce"/> 
+  <loader lib="mai01" loader="ebl-dda"/>
+  <loader lib="mai01" loader="marcive-sls"/>
+  <loader lib="mai01" loader="marcive-full"/>
+  <loader lib="mai02" loader="marcive-full"/>
+  <loader lib="mai01" loader="marcive-chg"/>
+  <loader lib="mai02" loader="marcive-chg"/>
+  <loader lib="mai01" loader="ongoing"/>
+  <loader lib="mai01" loader="ongoing-batch"/>
+  <loader lib="mai02" loader="ongoing-batch"/>
+  <loader lib="mai01" loader="lndl"/>
+  <loader lib="mai01" loader="lndl2"/>
+  <loader lib="mai01" loader="promptcat-cp-dd"/>
+  <loader lib="mai01" loader="promptcat-cp-eb"/>
+  <loader lib="mai01" loader="promptcat-cp-pp"/>
+  <loader lib="mai01" loader="promptcat-ml"/>
+  <loader lib="mai01" loader="springer-hs"/> 
+  <loader lib="mai01" loader="ybpgobi-bc"/> 
+  <loader lib="mai01" loader="ybpgobi-bs"/> 
+  <loader lib="mai01" loader="ybpgobi-cp"/>
+  <loader lib="mai01" loader="ybpgobi-ebooks-cp"/> 
+  <loader lib="mai01" loader="ybpgobi-ebooks-sg"/> 
+  <loader lib="mai01" loader="ybpgobi-es"/>
+  <loader lib="mai01" loader="ybpgobi-ln"/>
+  <loader lib="mai01" loader="ybpgobi-ml"/>
+  <loader lib="mai01" loader="ybpgobi-ms"/>
+  <loader lib="mai01" loader="ybpgobi-sg"/> 
+  <loader lib="mai01" loader="ybpgobi-su"/> 
+  <loader lib="mai01" loader="ybpgobi-tu"/> 
+  <loader lib="mai01" loader="ybpgobi-fo2-bc"/> 
+  <loader lib="mai01" loader="ybpgobi-fo2-cp"/> 
+  <loader lib="mai01" loader="ybpgobi-fo2-cp-eb"/> 
+  <loader lib="mai01" loader="ybpgobi-fo2-ln"/> 
+  <loader lib="mai01" loader="ybpgobi-fo2-ml"/> 
+  <loader lib="mai01" loader="ybpgobi-fo2-ms"/> 
+  <loader lib="mai01" loader="ybpgobi-fo2-sg"/> 
+  <loader lib="mai01" loader="ybpgobi-fo2-su"/> 
+  <loader lib="mai01" loader="ybpgobi-fo2-tu"/> 
+
+  <loader lib="mai01" loader="bibnot"/> 
+  <loader lib="mai01" loader="bibnot-bc"/>    
+  <loader lib="mai01" loader="cali"/>
+  <loader lib="mai01" loader="catexpress-su"/> 
+  <loader lib="mai01" loader="cjk-ml"/>   
+  <loader lib="mai01" loader="cmbbs-cp"/>
+  <loader lib="mai01" loader="cmbbs-tu"/>
+  <loader lib="mai01" loader="cmbbs-es"/>
+  <loader lib="mai01" loader="ebrary-ml"/>
+  <loader lib="mai01" loader="ebrary-tu"/>
+  <loader lib="mai01" loader="evans"/>  
+  <loader lib="mai01" loader="moml"/>    
+  <loader lib="mai01" loader="netlibrary"/>  
+  <loader lib="mai01" loader="pinyin"/>
+  <loader lib="mai01" loader="promptcat"/> 
+  <loader lib="mai01" loader="promptcat-bbs"/>
+  <loader lib="mai01" loader="promptcat-uc"/>
+  <loader lib="mai01" loader="promptcat-uc8hg"/> 
+  <loader lib="mai01" loader="safari-cp"/>
+  <loader lib="mai01" loader="sephardic-cp"/>
+  <loader lib="mai01" loader="techpro-uc"/>
+  <loader lib="mai01" loader="ucoverseas"/> 
+
+</index>
+
+

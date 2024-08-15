@@ -1,0 +1,319 @@
+/* The font-family defines the preferred font for ALEPH WEB interface.
+   The system checks the fonts installed on the user's PC against the
+   the definitions, and uses the first match found. 
+   NOTE! fonts differ from each other in the characters that are 
+   included, and in performance, usually in direct proportion; i.e.
+   fonts that include large range are heavy load on PC. Therefore,
+   when defining your fonts, take into account the characters in your 
+   database. 
+   NOTE: Aug. 21, 2001. Ex Libris has found that Arial Unicode MS has
+   the largest range, but creates performance problems on PC operating
+   under NT, with IE 5.5 and 6.0.*/
+<style type="text/css">
+
+BODY
+{
+  background-color:white;
+  font-family : Verdana, Geneva, Arial, Helvetica, sans-serif;
+  font-size:80%;
+  color:#212063;
+  text-decoration:none;
+}
+H1
+{
+  font-family : Verdana, Geneva, Arial, Helvetica, sans-serif;
+  font-size:80%;
+  font-weight:bold;
+  color:red;
+}
+TH
+{
+  font-family : Verdana, Geneva, Arial, Helvetica, sans-serif;
+   text-align:left;
+   font-size:75%;
+}
+TD
+{
+  font-family : Verdana, Geneva, Arial, Helvetica, sans-serif;
+   font-size:80%;
+}
+
+DIV,SPAN
+{
+  font-family : Verdana, Geneva, Arial, Helvetica, sans-serif;
+  font-size:80%;
+}
+
+option
+{
+  font-family : Verdana, Geneva, Arial, Helvetica, sans-serif;
+}
+
+select
+{
+  font-family : Verdana, Geneva, Arial, Helvetica, sans-serif;
+}
+
+
+input
+{
+  font-family : Verdana, Geneva, Arial, Helvetica, sans-serif;
+}
+
+.title
+{
+  font-family : Verdana, Geneva, Arial, Helvetica, sans-serif;
+  font-size:80%;
+  font-weight:bold;
+  color:red;
+}
+.topbar
+{
+  font-family : Verdana, Geneva, Arial, Helvetica, sans-serif;
+  font-weight:bold;
+  color:#FFFFFF;
+ }
+.middlebar
+{
+  font-family : Verdana, Geneva, Arial, Helvetica, sans-serif;
+  font-weight:bold;
+
+}
+.bottombar
+{
+  font-family : Verdana, Geneva, Arial, Helvetica, sans-serif;
+  font-weight:bold;
+
+}
+.feedbackbar
+{
+  font-family :Verdana, Geneva, Arial, Helvetica, sans-serif;
+  font-weight:bold;
+  font-size: 80%;
+  background-color:fff0c1;
+
+}
+.explain
+{
+  font-family : Verdana, Geneva, Arial, Helvetica, sans-serif;
+  font-size:80%;
+  background-color:fff0c1;
+
+.goback
+{
+  font-family : Verdana, Geneva, Arial, Helvetica, sans-serif;
+  font-size:70%;
+}
+
+}
+.bar
+{
+  font-family : Verdana, Geneva, Arial, Helvetica, sans-serif;
+  font-size:80%;
+  font-weight:normal;
+
+}
+.indent1
+{
+  margin-left:5%;
+}
+.copyright
+{
+  font-family : Verdana, Geneva, Arial, Helvetica, sans-serif;
+  font-size:70%;
+  color:#6F6F6F;
+}
+.text1
+{
+  font-family : Verdana, Geneva, Arial, Helvetica, sans-serif;
+  font-size:80%;
+  font-weight:bold;
+}
+.text2
+{
+  font-family : Verdana, Geneva, Arial, Helvetica, sans-serif;
+  font-size:120%;
+  font-weight:bold;
+  color:red;
+}
+.text3
+{
+  font-family : Verdana, Geneva, Arial, Helvetica, sans-serif;
+  font-weight:bold;
+  font-size:80%;
+}
+.text4
+{
+  font-family : Verdana, Geneva, Arial, Helvetica, sans-serif;
+  font-size:100%;
+}
+.textcolor
+{ font-size:80%;
+  font-family : Verdana, Geneva, Arial, Helvetica, sans-serif;
+  color:red;
+}
+
+.textgrayed
+{ font-size:80%;
+  font-family : Verdana, Geneva, Arial, Helvetica, sans-serif;
+  color:999999;
+}
+#small
+{
+  font-family : Verdana, Geneva, Arial, Helvetica, sans-serif;
+  font-size:70%;
+}
+
+.text9
+{
+  font-family : Verdana, Geneva, Arial, Helvetica, sans-serif;
+  font-size:80%;
+  font-weight:normal;
+
+}
+#italics
+{
+  font-family : Verdana, Geneva, Arial, Helvetica, sans-serif;
+  font-style: italic;
+}
+
+/*gray table row*/
+.tr1
+{
+  font-family : Verdana, Geneva, Arial, Helvetica, sans-serif;
+  font-weight:normal;
+  background-color:#cccccc;
+}
+
+/*gold table row*/
+.tr2
+{
+   font-weight:normal;
+  background-color:#ffcc33;
+}
+
+
+/*pale gray table row*/
+.tr3
+{
+  font-family : Verdana, Geneva, Arial, Helvetica, sans-serif;
+  font-weight:normal;
+  background-color:#f2f0ef;
+}
+
+/*color to indicate journals*/
+.journals
+{
+  font-family : Verdana, Geneva, Arial, Helvetica, sans-serif;
+  font-weight:normal;
+  background-color:cccc99;
+}
+.reserves
+{
+  font-family : Verdana, Geneva, Arial, Helvetica, sans-serif;
+  font-weight:normal;
+  background-color:#212063;
+}
+
+#bold
+{  
+  font-family : Verdana, Geneva, Arial, Helvetica, sans-serif;
+  font-weight:bold;
+}
+#boldwhite
+{  
+  font-family : Verdana, Geneva, Arial, Helvetica, sans-serif;
+  font-weight:bold;
+  color: ffffff;
+}
+.td1
+{
+  font-family : Verdana, Geneva, Arial, Helvetica, sans-serif;
+  font-weight:normal;
+  background-color:#cccccc;
+}
+.td3
+{
+  font-family : Verdana, Geneva, Arial, Helvetica, sans-serif;
+  font-weight:normal;
+  background-color:#f2f0ef;
+}
+
+#bold
+{  
+  font-family : Verdana, Geneva, Arial, Helvetica, sans-serif;
+  font-weight:bold;
+}
+#centered
+{
+  font-family : Verdana, Geneva, Arial, Helvetica, sans-serif;
+  text-align: center;
+}
+#right
+{
+  font-family : Verdana, Geneva, Arial, Helvetica, sans-serif;
+  text-align: right;
+}
+.td2
+{
+  font-family : Verdana, Geneva, Arial, Helvetica, sans-serif;
+  font-size:80%;
+  font-weight:bold;
+  background-color:#f2f0ef;
+}
+#small
+{
+  font-family : Verdana, Geneva, Arial, Helvetica, sans-serif;
+  font-size:80%;
+}
+a:link
+{
+  font-family : Verdana, Geneva, Arial, Helvetica, sans-serif;
+  color:#212063;
+}
+a:visited
+{
+  font-family : Verdana, Geneva, Arial, Helvetica, sans-serif;
+  color:#212063;
+}
+a:active
+{
+
+  color:#212063;
+}
+a.blue:link
+{
+  font-size:80%;
+  font-weight:bold;
+  color:#212063;
+  text-align:center;
+  text-decoration: none;
+}
+a.blue:visited
+{
+  font-size:80%;
+  font-weight:bold;
+  color:#212063;
+  text-align:center;
+  text-decoration: none;
+}
+a.blue:hover
+{
+  color:#FF6600;
+}
+a.menu:link
+{
+  font-family : Verdana, Geneva, Arial, Helvetica, sans-serif;
+  text-decoration: none;
+}
+a.menu:visited
+{
+  font-family : Verdana, Geneva, Arial, Helvetica, sans-serif;
+  text-decoration: none;
+}
+a.menu:hover
+{
+  font-family : Verdana, Geneva, Arial, Helvetica, sans-serif;
+  color:red;
+}
+</style>

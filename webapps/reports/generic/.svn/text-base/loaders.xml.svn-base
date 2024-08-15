@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<index>
+
+  <loader lib="MAX01" loader="bibnot"/>
+  <loader lib="MAX01" loader="marcive-full"/>
+  <loader lib="MAX01" loader="marcive-sls"/>
+  <loader lib="MAX01" loader="promptcat"/>
+
+  <loader lib="MAD01" loader="ongoing"/>
+  <loader lib="MAD01" loader="ongoing-batch"/>
+  <loader lib="MAD01" loader="bibnot"/>
+  <loader lib="MAD01" loader="marcive-sls"/>
+  <loader lib="MAD01" loader="marcive-full"/>
+  <loader lib="MAD01" loader="promptcat"/>
+  <loader lib="MAD01" loader="promptcat-bbs"/>
+
+</index>
+

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- List of available reports -->
+<root>
+  <report value="xpt"                      lib="mai01"/>
+  <report value="marcivefull-nohol"        lib="mai01"/>
+  <report value="edi"                      lib="mai50"/>
+  <report value="callnums"                 lib="mai50"/>
+  <report value="scmi"                     lib="mai50"/>
+  <report value="marcivesls-dummybarcode"  lib="mai50"/>   
+  <report value="auth_reload"              lib="mai01"/>
+  <report value="loadauth"                 lib="mai10"/>
+  <report value="loadauth"                 lib="mai12"/>
+</root>

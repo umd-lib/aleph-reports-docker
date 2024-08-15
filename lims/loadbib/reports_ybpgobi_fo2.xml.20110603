@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+
+   <reports>
+      <new  short="New"      title="New Records"/>
+      <overlay  short="Overlay"  title="Records which overlaid existing records"/>
+      <overlaid   short="Overlaid" title="Records overlaid by incoming records"/>
+		<noXPTadded short="No XPT" title="No XPT added to the record"/>
+      <rejected   short="Rejected" title="Rejected Records"/>
+		<defholcreated short="Def Hol created" title="Default Hol created"/> 
+      <holnotcreated short="Hol not created" title="Hol not created"/>
+		<defitemcreated short="Item updated" title="Item updated"/>
+      <itemnotcreated short="Item not created" title="Item not created"/>
+      <biblvls    short="Records with bib lvl='s'" title="Records with bib lvl='s'"/>
+      <ordercreated short="Order created" title="Order created"/>
+      <geninvoicecreated short="General invoice created" title="General invoice created"/>
+      <invoicecreated short="Line item created" title="Line item created"/>
+      <noorder-bibmatch short="Order/invoice not created" title="Order/invoice records not created due to an existing bib record"/>
+      <error short="Error" title="Generic Errors"/>
+   </reports>

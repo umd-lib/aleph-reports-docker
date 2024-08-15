@@ -1,0 +1,290 @@
+#! /bin/sh
+ 
+#  Revisions:
+#  
+#  2015/09/17: Hans
+#     - Create standard script for all loaders.
+#       move variables into files ftpinfo and email_config
+#
+#  2010/11/20: Mike
+#     - Made a number of changes to allow for the "-t" test option.
+#        - files are download and redirected to the "tmpfiles" directory instead of the "files" directory
+#        - e-mail does not get sent
+#        - main log file does not get updated so that the files can be downloaded again.
+#
+#  2010/06/13: Hans
+#     - v20 change - replace hardcoded directory reference
+#
+#  2009/07/31: Hans
+#     - add 'passive' command to ftp
+#
+#  2010/09/02: Mike
+#     - added e-mail feature. E-mail will be sent when the files are retrieved.
+#     - customized several items in the script. 
+#        (1) Directory is now specific to the loader so that the script can be ran from any directory
+#        (2) Link to the loader reports is unique to the loader.
+#
+
+
+# Making sure we are at the right place
+OLDDIR=`pwd`
+NEWDIR=`dirname $0` 
+cd $NEWDIR
+FILEDIR='../files'
+
+# Defining variables 
+LOG=sessionlog.$$
+EMAIL=emailtext.$$
+touch $LOG
+MAINLOG='log'
+
+# turn off filename expansion
+set -f
+
+# Build mget commands from list of file patterns
+build_mget()
+{
+    for pat in $*; do
+       echo mget $pat
+    done
+}
+
+#If the retrieval is running in test mode main log file is backed up 
+#so that it can be rolled back later 
+ if [ "$1" == "-t" ]; then
+    cp $MAINLOG backuplog.$$
+    echo "Started retrieving files. Please wait."
+ fi
+ 
+#Adding date to the log
+ echo "" >> $MAINLOG
+ echo \*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\* >> $MAINLOG
+ echo \*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\*\* >> $MAINLOG
+ date >> $MAINLOG
+ echo "" >> $MAINLOG
+ 
+#Creating temporary directory for downloaded files
+ rm -rf tempfiles 2> /dev/null
+ mkdir tempfiles
+ 
+ 
+#Getting the files from the ftp sites.
+ while read curline; do
+ 
+   #Skipping the blank lines
+    while [ "$curline" = "" ] 
+    do read curline
+    done
+ 
+   #Setting variables using the ftpinfo file
+ 
+   #Reading the description of the ftp server
+    if echo $curline | grep description >> /dev/null
+    then
+        DESCRIPTION=`echo $curline | sed 's/description: *//'`
+        PRE=`echo $DESCRIPTION | tr -d ' \[\]' | tr '[A-Z]' '[a-z]'`
+        read curline
+    else 
+        echo Wrong formatting of the ftpinfo file.
+        echo --\> $curline 
+        echo is supposed to contain the description information
+        exit 1
+    fi
+ 
+   #Reading the address of the ftp server
+    if echo $curline | grep server >> /dev/null 
+    then 
+        REMOTE=`echo $curline | sed 's/server: *//'`
+        read curline
+    else
+        echo Wrong formatting of the ftpinfo file. 
+        echo --\> $curline
+        echo is supposed to contain the address of the server
+        exit 1
+    fi
+ 
+   #Reading the user name for the the ftp server
+    if echo $curline | grep name >> /dev/null
+    then
+        USER=`echo $curline | sed 's/name: *//'`
+        read curline
+    else
+        echo Wrong formatting of the ftpinfo file.
+        echo --\> $curline
+        echo is supposed to contain the user name
+        exit 1
+    fi
+ 
+   #Reading the password of the ftp server
+    if echo $curline | grep password >> /dev/null
+    then
+        PASSWORD=`echo $curline | sed 's/password: *//'`
+        read curline
+    else
+        echo Wrong formatting of the ftpinfo file.
+        echo --\> $curline
+        echo is supposed to contain the password
+        exit 1
+    fi
+ 
+   #Reading the folder location within the ftp server
+    if echo $curline | grep directory >> /dev/null
+    then
+        FTPDIR=`echo $curline | sed 's/directory: *//'`
+        read curline
+    else
+        echo Wrong formatting of the ftpinfo file.
+        echo --\> $curline
+        echo is supposed to contain the path to the files
+        exit 1
+    fi
+
+   #Reading filename patterns
+    if echo $curline | grep files >> /dev/null
+    then
+        FILELIST=`echo $curline | sed 's/files: *//'`
+        read curline
+    else
+        echo Wrong formatting of the ftpinfo file.
+        echo --\> $curline
+        echo is supposed to contain the filename patterns
+        exit 1
+    fi
+
+    ADDPREFIX=N
+    ADDYEAR=N
+
+   #Reading additional flags (addprefix, addyear)
+    while echo $curline | egrep '(addprefix|addyear)' > /dev/null ; do
+        if echo $curline | grep addprefix > /dev/null
+        then
+            ADDPREFIX=Y
+            read curline
+        elif echo $curline | grep addyear > /dev/null
+        then
+            ADDYEAR=Y
+            read curline
+        fi
+    done
+
+ 
+   #***************** Processing begins ********************
+    cd tempfiles
+ 
+   #Downloading files
+    ftp -i -n $REMOTE <<ENDFTP
+    quote USER $USER
+    quote PASS $PASSWORD
+    ascii
+    cd $FTPDIR
+    $FTP_PASSIVE_COMMAND
+    `build_mget $FILELIST`
+    quit
+ENDFTP
+ 
+   #Renaming the files (adding a year)
+    if [ $ADDYEAR == Y ]
+    then
+        currmonthday=`date +"%m%d"`
+        curryear=`date +"%Y"`
+        lastyear=`expr $curryear - 1`
+        for mrcfile in `ls -1 ./`; do
+            filedate=`echo $mrcfile | sed 's/\(\)..../\1/' | sed 's/.ord//'`
+            if [ $filedate -gt $currmonthday ]
+            then
+                newname=`echo $mrcfile | sed "s/\(....\)/&$lastyear/"`
+            else
+                newname=`echo $mrcfile | sed "s/\(....\)/&$curryear/"`
+            fi
+            mv "$mrcfile" "$newname"
+        done
+    fi
+
+   #Renaming the file (adding the description )
+    if [ $ADDPREFIX == Y ]
+    then
+        for mrcfile in `ls -1 ./`; do
+            newname=${PRE}$mrcfile
+            mv "$mrcfile" "$newname"
+        done
+    fi
+ 
+    cd ..
+
+   #Redirecting files to the "tmpfiles" directory if running in test mode
+    if [ "$1" == "-t" ]; then
+       FILEDIR='../tmpfiles'
+       if [ -d $FILEDIR ]; then
+          echo "'tmpfiles' directory already exists. Copying new (if any) files there." >> /dev/null
+       else
+          mkdir $FILEDIR
+          echo "Creating 'tmpfiles' directory and copying new (if any) files there." >> /dev/null
+       fi
+    fi   
+ 
+   #Copying necessary files to the loader files directory     
+    for mrcfile in `ls -1 tempfiles/`; do
+        if grep $mrcfile $MAINLOG >> /dev/null
+        then 
+            echo $mrcfile " had already been loaded in the past" >> /dev/null
+        else
+            mv tempfiles/$mrcfile $FILEDIR
+            echo $mrcfile " was downloaded" >> $LOG 
+        fi
+    done
+    
+   #Update the permanent log
+    echo List of files available from the $DESCRIPTION: >> $MAINLOG
+    echo "" >> $MAINLOG
+    cat $LOG >> $MAINLOG
+    echo "" >> $MAINLOG
+    echo ---------------------------------------- >> $MAINLOG
+    echo "" >> $MAINLOG
+ 
+   #Print the information about processed files
+    if test -s $LOG
+    then
+        TODAY=`date +"%m-%d-%Y"`
+        echo Following files from $DESCRIPTION were downloaded on $TODAY:
+        cat $LOG
+    fi
+
+   #E-mail the information about processed files
+    if [ -s "$LOG" ] && [ "$1" != "-t" ]; then
+        /lims/bin/loadbib-email "$DESCRIPTION" `cut -d' ' -f1  $LOG`
+    fi
+
+  
+   # Cleanup
+    rm $LOG
+    touch $LOG
+    set +f
+    rm -r -f tempfiles/*
+    set -f
+ 
+ done < "ftpinfo"
+
+#Recovering the main log from the backup if running in test mode  
+if [ "$1" == "-t" ]; then
+   mv backuplog.$$ $MAINLOG
+fi
+ 
+#Final Cleanup
+ rm -r -f tempfiles
+ rm $LOG
+ 
+ 
+#Reporting out and launching anything else if necessary.
+ if [ "`ls -A $FILEDIR`" = "" ]
+ then
+    echo "No files retrieved."
+ else
+    echo "Done retrieving files. See $FILEDIR directory."
+ fi
+
+#Remove tmpfiles directory if there is nothing in it.
+ if [ "`ls -A $FILEDIR`" = "" ] && [ "$1" == "-t" ]; then
+    rm -r $FILEDIR
+ fi
+ 
+ cd $OLDDIR

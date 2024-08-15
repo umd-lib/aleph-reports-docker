@@ -1,0 +1,59 @@
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/aleph/!svn/ver/233/trunk/tomcat/webapps/reports/circstats
+END
+list.xsl
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/aleph/!svn/ver/233/trunk/tomcat/webapps/reports/circstats/list.xsl
+END
+report.xsl
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/aleph/!svn/ver/233/trunk/tomcat/webapps/reports/circstats/report.xsl
+END
+index.jsp
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/aleph/!svn/ver/233/trunk/tomcat/webapps/reports/circstats/index.jsp
+END
+header.jsp
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/aleph/!svn/ver/233/trunk/tomcat/webapps/reports/circstats/header.jsp
+END
+list.jsp
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/aleph/!svn/ver/233/trunk/tomcat/webapps/reports/circstats/list.jsp
+END
+report.jsp
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/aleph/!svn/ver/233/trunk/tomcat/webapps/reports/circstats/report.jsp
+END
+campus.xml
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/aleph/!svn/ver/233/trunk/tomcat/webapps/reports/circstats/campus.xml
+END
+footer.jsp
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/aleph/!svn/ver/233/trunk/tomcat/webapps/reports/circstats/footer.jsp
+END
+campus.xsl
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/aleph/!svn/ver/233/trunk/tomcat/webapps/reports/circstats/campus.xsl
+END

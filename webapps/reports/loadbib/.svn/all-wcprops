@@ -1,0 +1,17 @@
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/aleph/!svn/ver/231/trunk/tomcat/webapps/reports/loadbib
+END
+report.xsl
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/aleph/!svn/ver/231/trunk/tomcat/webapps/reports/loadbib/report.xsl
+END
+loaders.xml
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/aleph/!svn/ver/231/trunk/tomcat/webapps/reports/loadbib/loaders.xml
+END

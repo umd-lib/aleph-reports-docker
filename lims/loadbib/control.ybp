@@ -1,0 +1,114 @@
+#!/bin/csh -f
+
+source ../env
+
+set LOADBIB=${lims_base}/bin/loadbib
+set MARC=/lims/bin/marc
+
+switch ($1) 
+
+case run:
+    ./control retrieve
+    ./control process
+    breaksw
+
+case auto-run:
+
+    ./control run
+
+    if ($status == 0) then
+        echo
+        echo `date`: attempt succeeded
+    else
+        echo
+        echo `date`: attempt failed
+    endif
+    
+    breaksw
+
+case retrieve:
+    retrieve/get-files
+    breaksw
+
+case test-retrieve:
+    retrieve/get-files -t
+    breaksw
+
+case process:
+    foreach file (files/*) >& /dev/null
+        echo
+        echo Running loader
+        set name=`echo $file | sed 's/files\///'`
+        $LOADBIB -l -f config.xml -i $file -t "$name"
+    end
+
+    mv files/* processed/ >& /dev/null
+
+   #E-mail alert if any of the reports have not been closed
+    set host_name=`hostname`
+    set scipt_location=`readlink -f $0`
+    set dir_name=`dirname $scipt_location`
+    set currDay=`/bin/date +%Y%m%d`
+
+    foreach file (reports/$currDay*) >& /dev/null
+        set report_name=`echo $file | sed 's/reports\///'`
+        if ({ grep -s -q '<stop>' $file }) then
+            echo "Found <stop> line in report file $report_name" >& /dev/null
+        else
+            set file_name=`grep '<loadbib-title>' $file | cut -d ">" -f 2 | cut -d "<" -f 1`
+            set dir_name=`dirname $scipt_location` 
+            echo "There is no <stop> line in report file $report_name which may indicate that the loader was interrupted. Please check the log, report and $file_name file for errors. You can locate all these files on $host_name server at $dir_name directory." | mailx  -s "Incomplete loader report detected" libclas@umd.edu
+        endif
+    end
+    breaksw
+
+case stop:
+    $LOADBIB -c stop -f config.xml
+    breaksw
+
+case restart:
+    ./control stop
+    ./control start
+    breaksw
+
+case status:
+    $LOADBIB -c status -f config.xml
+    breaksw
+
+case config:
+    $LOADBIB -c config -f config.xml
+    breaksw
+
+case check-config:
+    $LOADBIB -c check-config -f config.xml
+    breaksw
+
+#case list:
+#    echo Getting list of remote files 
+#    $RETRIEVE -s ybpgobi-ml -l
+#    breaksw
+
+default:
+    echo " "
+    echo "<control run>      - downloads the files from the ftp server (see <control retrieve>) and runs the loader (see <control process>)."
+    echo " "
+    echo "<control auto-run> - does everything <control run> does and returns whether attempt succeeded or failed."
+    echo " "
+    echo "<control retrieve> - downloads the files from the ftp server to the 'files' directory."
+    echo "                   - makes an entry in the log so the files will NOT be downoaded again next time retrieval runs."
+    echo "                   - sends e-mail notice to the users."
+    echo " "
+    echo "<control test-retrieve> - downloads the files from the ftp server to the 'tmpfiles' directory."
+    echo "                   - does NOT make an entry in the log so the files will be downloaded again next time retrieval runs."
+    echo "                   - e-mail notice does NOT go out."
+    echo " "
+    echo "<control process>  - runs the loader which processes the files and moves them to the processed directory."
+    echo " "
+    breaksw
+
+default:
+    echo invalid option
+    breaksw
+endsw
+
+exit 0

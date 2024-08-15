@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<index>
+
+  <campus inst="bc" name="UMBC"/>
+  <campus inst="rc" name="- UMBC RCLC"/>
+  <campus inst="bl" name="UB Law"/>
+  <campus inst="bs" name="Bowie"/>
+  <campus inst="ce" name="CES"/>
+  <campus inst="cp" name="College Park"/>
+  <campus inst="cs" name="Coppin"/>
+  <campus inst="es" name="UMES"/>
+  <campus inst="fs" name="Frostburg"/>
+  <campus inst="fh" name="Hagerstown"/>
+  <campus inst="hs" name="HS/HSL"/>
+  <campus inst="ml" name="UM Law"/>
+  <campus inst="ms" name="Morgan"/>
+  <campus inst="sm" name="St. Marys"/>
+  <campus inst="su" name="Salisbury"/>
+  <campus inst="tu" name="Towson"/>
+  <campus inst="ub" name="UB"/>
+  <campus inst="uc" name="UC"/>
+  <campus inst="usmai" name="USMAI"/>
+</index>
+
+

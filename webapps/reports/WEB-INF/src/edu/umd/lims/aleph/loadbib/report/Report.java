@@ -1,0 +1,555 @@
+/*
+ * Copyright (c) 2003 The University of Maryland. All Rights Reserved.
+ * 
+ */
+
+package edu.umd.lims.aleph.loadbib.report;
+
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
+
+import java.io.BufferedReader;
+import java.io.Reader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.IOException;
+import java.io.FileOutputStream;
+import java.io.OutputStreamWriter;
+
+import java.util.zip.GZIPInputStream;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import javax.servlet.jsp.JspWriter;
+
+import org.apache.log4j.Category;
+
+// import edu.umd.lims.aleph.JAlephBatch;
+
+
+/*********************************************************************
+ Support loadbib reporting.
+
+ <pre>
+ Revision History:
+
+   2004/11/30: Ben
+     - handle reading compressed report files
+
+   2004/04/27: Ben
+     - add caching of report titles
+     - use java.util.regex for selecting report files
+
+   2004/04/23: Ben
+     - add reportsFile param
+
+   2003/07/30: Ben
+     - initial version
+ </pre>
+
+ @author  Ben Wallberg
+
+*********************************************************************/
+
+
+public class Report
+{
+  public static Category cat  = Category.getInstance(Report.class.getName());
+
+  private String strLib      = null;  // Aleph library
+  private String strLoader   = null;  // loader
+  private String strReport   = null;  // loader report file
+  private String strFormat   = null;  // report format
+  private String strCampus   = null;  // campus (blank for all)
+  private String strCategory = null;  // category
+
+  private Map mDataRoot = new HashMap();
+
+  private static Pattern pFile = Pattern.compile("(\\d{8}-\\d{6})\\.xml(?:\\.gz)?");
+
+
+  /*************************************************************** getLib */
+  /**
+   */
+
+  public String
+    getLib()
+  { return strLib; }
+
+
+  /************************************************************ getLoader */
+  /**
+   */
+
+  public String
+    getLoader()
+  { return strLoader; }
+
+
+  /************************************************************ getReport */
+  /**
+   */
+
+  public String
+    getReport()
+  { return strReport; }
+
+
+  /************************************************************ getFormat */
+  /**
+   */
+
+  public String
+    getFormat()
+  { return strFormat; }
+
+
+  /************************************************************ getCampus */
+  /**
+   */
+
+  public String
+    getCampus()
+  { 
+    return (strCampus == null || strCampus.equals("all") ? "" : strCampus); 
+  }
+
+
+  /********************************************************** getCategory */
+  /**
+   */
+
+  public String
+    getCategory()
+  { return (strCategory == null ? "" : strCategory); }
+
+
+  /********************************************************** getDataRoot */
+  /**
+   */
+
+  public String
+    getDataRoot()
+  {
+    if (strLib == null)
+      return null;
+
+    return "/aleph/u23_1/" + strLib;
+  }
+
+
+  /******************************************************** getReportDir  */
+  /**
+   */
+
+  public String
+    getReportDir()
+  {
+    String strDataRoot = getDataRoot();
+    if (strDataRoot == null || strLoader == null)
+      return null;
+
+    String strDir = strDataRoot + "/lims/loadbib/" + strLoader + "/reports";
+
+    if ((new File(strDir)).exists()) {
+	return strDir;
+    }
+
+    // obsolete loaders live in a different directory
+
+    return strDataRoot + "/lims/loadbib-old/" + strLoader + "/reports";
+  }
+
+
+  /******************************************************** getReportList */
+  /**
+   */
+
+  public String
+    getReportList()
+  {
+    StringBuffer sb = new StringBuffer();
+
+    sb.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
+    sb.append("<list>\n");
+
+    // Get the report directory
+    String strReportDir = getReportDir();
+    if (strReportDir != null) {
+
+      // Get the list of files in the directory
+      File fFiles[] = new File(strReportDir).listFiles();
+      if (fFiles != null) {
+        Arrays.sort(fFiles);
+
+        // Loop through the files
+        boolean bFirst = true;  // First report file processed
+        for (int i=fFiles.length-1; i > -1; i--) {
+          String strName = fFiles[i].getName();
+
+          // Check for a matching file
+          Matcher mFile = pFile.matcher(strName);
+          if (mFile.matches())
+          {
+            String strReport = mFile.group(1);
+            sb.append("  <entry>\n");
+            sb.append("    <report>" + strReport + "</report>\n");
+            sb.append("    <text>" + strReport + getTitleOptionsCached(fFiles[i]) + "</text>\n");
+
+            if (((this.strReport == null || this.strReport.equals("")) && 
+                 bFirst) ||
+                (this.strReport != null && this.strReport.equals(strReport)))
+              sb.append("    <selected/>\n");
+            sb.append("  </entry>\n");
+            
+            bFirst = false;
+          }
+        }
+      }
+
+    }
+
+    sb.append("</list>\n");
+
+    return sb.toString();
+  }
+
+
+  /*********************************************************** getXmlFile */
+  /**
+   */
+
+  public String
+    getXmlFile()
+  {
+    String strReportDir = getReportDir();
+    if (strReportDir == null)
+      return null;
+
+    String strFile = strReportDir + "/" + getReport() +".xml";
+    if ((new File(strFile)).exists()) {
+      return strFile;
+    } else {
+      strFile += ".gz";
+      if ((new File(strFile)).exists()) {
+        return strFile;
+      }
+    }
+
+    return "???";
+  }
+
+
+  /********************************************************* getXmlReader */
+  /**
+   */
+
+  public Reader
+    getXmlReader()
+    throws IOException
+  {
+    return getFileReader(new File(getXmlFile()));
+  }
+
+
+  /********************************************************* getFileReader */
+  /**
+   */
+
+  public static Reader
+    getFileReader(File f)
+    throws IOException
+  {
+    // Open the file
+    InputStream i  = new FileInputStream(f);
+      
+    if (f.getName().endsWith(".gz"))
+      i = new GZIPInputStream(i);
+
+    return new InputStreamReader(i, "UTF8");
+  }
+
+
+  /******************************************************* getReportsFile */
+  /**
+   */
+
+  public String
+    getReportsFile()
+  { 
+    // Get the report directory
+    String strReportDir = getReportDir();
+
+    if (strReportDir == null)
+      return null;
+    else
+      return "file:" + strReportDir + "/reports.xml";
+  }
+
+
+  /*********************************************************** getXslFile */
+  /**
+   */
+
+  public String
+    getXslFile()
+  {
+    String strReportDir = getReportDir();
+    if (strReportDir == null)
+      return null;
+
+    return "file:" + strReportDir + "/report.xsl";
+  }
+
+
+  /**************************************************** getTitleCacheFile */
+  /**
+   * Get the title cache file.  Create the cache directory if necessary.
+   */
+
+  protected File
+    getTitleCacheFile(File f)
+    throws IOException
+  {
+    // Get the cache directory (create if necessary)
+    File fCacheDir = new File(f.getParentFile(), "cache");
+    if (!fCacheDir.exists()) {
+      cat.debug("Creating cache dir: " + fCacheDir);
+      fCacheDir.mkdir();
+    }
+
+    // Build the cache file name
+    String strName = (f.getName().endsWith(".gz")
+		      ? f.getName().substring(0,f.getName().length()-3)
+		      : f.getName());
+    File fCache = new File(fCacheDir, strName + ".title");
+
+
+    return fCache;
+  }
+
+                           
+  /************************************************ getTitleOptionsCached */
+  /**
+   * Get the report title extras for a particular report using the
+   * cached value if it is available.
+   */
+
+  public String
+    getTitleOptionsCached(File f)
+  {
+    String strTitle = null;
+
+    // Get the cached file name
+    File fCache = null;
+    try {
+      fCache = getTitleCacheFile(f);
+    }
+    catch (IOException e) {
+      cat.error("Error getting cached title file name");
+      return "";
+    }
+
+    // Look for the file
+    cat.debug("Checking for cached title file: " + fCache);
+
+    if (!fCache.exists() ) {
+      cat.debug(fCache + " not found.");
+
+    } else if (f.lastModified() > fCache.lastModified()) {
+      cat.debug("Cache file found, but is stale; rebuilding.");
+
+    } else {
+      // Get the title
+      try {
+        // Open the file
+        BufferedReader br = new BufferedReader(getFileReader(fCache));
+
+        // Read the title
+        strTitle = br.readLine();
+
+        br.close();
+
+        cat.debug("Read cached title: " + strTitle);
+      }
+      catch (Exception e) {
+        cat.error("Error reading cached title from " + fCache + ": " + e.getMessage());
+      }
+    }
+
+    // If no cached title, get it now
+    if (strTitle == null) {
+
+      strTitle = getTitleOptions(f);
+
+      // Cache the title
+      try {
+        // Open the file
+        fCache.createNewFile();
+        OutputStreamWriter w = new OutputStreamWriter(new FileOutputStream(fCache), "UTF8");
+
+        // Write the title
+        w.write(strTitle);
+
+        w.close();
+
+        cat.debug("Wrote cached title: " + strTitle);
+      }
+      catch (Exception e) {
+        cat.error("Error saving cached title to " + fCache + ": " + e.getMessage());
+      }
+    }
+
+    return strTitle;
+  }
+
+
+  /****************************************************** getTitleOptions */
+  /**
+   * Get the report title extras for a particular report.
+   */
+
+  public String
+    getTitleOptions(File f)
+  {
+    int j,k;
+    int nCount = 0;
+    boolean bOpen = true;
+
+    StringBuffer sb = new StringBuffer();
+    try {
+      BufferedReader br = new BufferedReader(getFileReader(f));
+
+      // Read the file
+      String strLine;
+      while ((strLine = br.readLine()) != null) {
+
+        // Record count
+        if (strLine.indexOf("<record>") > -1) {
+          nCount++;
+        }
+
+        // Title
+        else if ((j = strLine.indexOf("<loadbib-title>")) > -1 &&
+                 (k = strLine.indexOf("</loadbib-title>", j)) > -1)
+          {
+            sb.append(" [" + strLine.substring(j+15,k) + "]");
+          }
+
+        // Close of report
+        else if (strLine.indexOf("</loadbib-report>") > -1) {
+          bOpen = false;
+        }
+      }
+
+      br.close();
+
+      sb.append(" (" + (bOpen ? "Open" : ""+nCount) + ")");
+    }
+    catch (Exception e) {
+      cat.error("Error reading title information for " + f + ": " + e.getMessage());
+    }
+
+    return sb.toString();
+  }
+
+
+  /************************************************************* writeXml */
+  /**
+   * Write the xml file to the JspWriter.
+   */
+
+  public void
+    writeXml(JspWriter out)
+    throws IOException
+  {
+
+    BufferedReader br = null;
+    try {
+      // Get the file name
+      String strReportDir = getReportDir();
+      if (strReportDir == null)
+        return;
+
+      br = new BufferedReader(getXmlReader());
+
+      // Forward the file
+      char c[] = new char[4096];
+      int l;
+      while ((l = br.read(c, 0, 4096)) > -1)
+        out.write(c, 0, l);
+
+    }
+   
+    catch (IOException e) {
+      cat.error("Error reading xml report file: " + e.getMessage());
+    }
+
+    finally {
+                if (br != null)
+                  br.close();
+    }
+
+  }
+
+
+  /*************************************************************** setLib */
+  /**
+   */
+
+  public void
+    setLib(String strLib)
+  { this.strLib = strLib; }
+
+
+  /************************************************************ setLoader */
+  /**
+   */
+
+  public void
+    setLoader(String strLoader)
+  { this.strLoader = strLoader; }
+
+
+  /************************************************************ setReport */
+  /**
+   */
+
+  public void
+    setReport(String strReport)
+  { this.strReport = strReport; }
+
+
+  /************************************************************ setFormat */
+  /**
+   */
+
+  public void
+    setFormat(String strFormat)
+  { this.strFormat = strFormat; }
+
+
+  /************************************************************ setCampus */
+  /**
+   */
+
+  public void
+    setCampus(String strCampus)
+  { this.strCampus = strCampus; }
+
+
+  /********************************************************** setCategory */
+  /**
+   */
+
+  public void
+    setCategory(String strCategory)
+  { this.strCategory = strCategory; }
+
+}
+
+

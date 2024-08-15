@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+
+  <campus value="all" name="All"/>
+  <campus value="BS" name="Bowie State University"/>
+  <campus value="CE" name="Center for Environmental Science"/>
+  <campus value="CS" name="Coppin State College"/>
+  <campus value="FS" name="Frostburg State University"/>
+  <campus value="MS" name="Morgan State University"/>
+  <campus value="SU" name="Salisbury State University"/>
+  <campus value="SM" name="St. Mary's College of Maryland"/>
+  <campus value="TU" name="Towson University"/>
+  <campus value="UB" name="University of Baltimore"/>
+  <campus value="BL" name="University of Baltimore Law Library"/>
+  <campus value="BC" name="UMBC"/>
+  <campus value="CP" name="University of Maryland, College Park"/>
+  <campus value="ES" name="University of Maryland Eastern Shore"/>
+  <campus value="HS" name="University of Maryland, Baltimore, Health Sciences and Human Services"/>
+  <campus value="ML" name="University of Maryland Law Library"/>
+  <campus value="UC" name="University of Maryland University College"/>
+
+</root>
