@@ -4,6 +4,6 @@ This repository includes the dockerfile as well as th encessary application file
 
 To build the docker file for the Ezcfg application in k8s, run the following docker command:
 
-docker build -t docker.lib.umd.edu/aleph-reports:<tag> . --platform linux/amd64
+docker build -t docker.lib.umd.edu/aleph-reports:tag-number . --platform linux/amd64
 
 Make sure you have the "build" namespace.
